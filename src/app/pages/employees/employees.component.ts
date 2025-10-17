@@ -85,9 +85,7 @@ export class EmployeesComponent implements OnInit {
         this.totalEmployees;
         this.isDelete = false;
       },
-      error: () => {
-        alert('deleting is error');
-      },
+      error: () => {},
     });
   }
   resetUpdateDto(): void {
@@ -101,7 +99,6 @@ export class EmployeesComponent implements OnInit {
   }
   updateUser(): void {
     if (this.selectedEmployeeId === 0) {
-      alert('No user selected for update.');
       return;
     }
     this.userService
@@ -124,7 +121,6 @@ export class EmployeesComponent implements OnInit {
         },
         error: (err) => {
           console.error('Update failed', err);
-          alert('Failed to update user.');
         },
       });
   }
@@ -156,7 +152,6 @@ export class EmployeesComponent implements OnInit {
   //     },
   //     error: (err) => {
   //       console.error('Delete failed', err);
-  //       alert('Failed to delete user.');
   //     },
   //   });
   // }

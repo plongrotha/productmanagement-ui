@@ -110,7 +110,6 @@ export class ProductsComponent implements OnInit {
         console.log('deleted proudct name : ' + deleteProduct?.productName);
       },
       error: (err) => {
-        alert('Failed to delete proudct.' + err);
         console.log('Deleting product is failed' + err);
       },
     });
@@ -135,7 +134,6 @@ export class ProductsComponent implements OnInit {
           this.closeModal();
         },
         error: (err) => {
-          alert('updating product is err: ' + err);
           console.log(err);
         },
       });
@@ -170,9 +168,7 @@ export class ProductsComponent implements OnInit {
         }
         console.log(this.cateList);
       },
-      error: (err) => {
-        alert('all category is err' + err);
-      },
+      error: (err) => {},
     });
   }
 
@@ -205,7 +201,6 @@ export class ProductsComponent implements OnInit {
     this.productService.createProduct(productDto).subscribe({
       next: (res) => {
         const newProduct = res.payload;
-        console.log(newProduct);
         this.loadProducts();
         this.productObj = {
           id: 0,
@@ -218,7 +213,6 @@ export class ProductsComponent implements OnInit {
         };
       },
       error: (err) => {
-        alert(err);
         console.log(err);
       },
     });
@@ -233,7 +227,6 @@ export class ProductsComponent implements OnInit {
 
   searchProductById(): void {
     if (!this.searchProduct || this.searchProduct <= 0) {
-      alert('Please enter a valid product ID to search.');
       return;
     }
 
@@ -244,7 +237,6 @@ export class ProductsComponent implements OnInit {
     if (productFound) {
       this.filteredProducts = [productFound];
       this.isSearch = false;
-      console.log('product found: ', productFound);
       return;
     } else {
       this.productService.getProductById(this.searchProduct).subscribe({
@@ -259,7 +251,6 @@ export class ProductsComponent implements OnInit {
           }
         },
         error: () => {
-          alert('Product not found with ID: ' + this.searchProduct);
           this.filteredProducts = [];
           this.isSearch = false;
           console.log('Product not found with ID: ' + this.searchProduct);

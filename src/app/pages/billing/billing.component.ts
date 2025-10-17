@@ -41,7 +41,6 @@ export class BillingComponent {
       // Increment quantity if product already in cart
       existingItem.quantity += 1;
       if (existingItem.quantity === 0) {
-        alert('gty is 0');
       }
       existingItem.totalPrice =
         existingItem.quantity * existingItem.pricePerUnit;
@@ -108,14 +107,12 @@ export class BillingComponent {
         },
         error: (err) => {
           console.error('Failed to load products', err);
-          alert('Failed to load products. Please try again.');
         },
       });
   }
 
   placeOrder(): void {
     if (this.cartItems.length === 0) {
-      alert('Your cart is empty!');
       return;
     }
 
@@ -130,8 +127,6 @@ export class BillingComponent {
     // Call your order service to place the order
     this.orderService.createOrder(orderRequest).subscribe({
       next: (response) => {
-        console.log('Order placed successfully', response);
-
         // Store order details
         this.lastOrderDetails = response.payload;
         this.isOrderPlaced = true;
@@ -140,17 +135,9 @@ export class BillingComponent {
         this.cartItems = [];
 
         // Show success message
-        alert(
-          `Order #${
-            response.payload.orderId
-          } placed successfully! Total: $${response.payload.totalAmount.toFixed(
-            2
-          )}`
-        );
       },
       error: (err) => {
         console.error('Failed to place order', err);
-        alert('Failed to place order. Please try again.');
       },
     });
   }
