@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EmployeeResponse } from '../../../models/employee.model';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-employee-list',
-  imports: [NgFor],
+  imports: [NgFor, NgIf],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css',
 })
