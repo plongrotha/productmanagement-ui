@@ -54,7 +54,6 @@ export class ProductsComponent implements OnInit {
     imageUrl: '',
     price: 0,
     quantity: 0,
-    description: '',
   };
 
   productObj: ProductResponse = {
