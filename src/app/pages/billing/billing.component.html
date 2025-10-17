@@ -1,0 +1,296 @@
+<div class="flex flex-wrap min-h-screen bg-gray-50">
+  <!-- Main Content -->
+  <div class="flex-1 justify-center flex items-center">
+    <div class="p-8 w-full">
+      @if (!isOrderPlaced) {
+      <h1 class="text-4xl font-bold text-gray-800 mb-2">Menu</h1>
+      <p class="text-gray-600 mb-8">Select items to add to your cart</p>
+
+      <div class="flex flex-wrap gap-6 justify-start">
+        @for (product of productList; track product.id) { @if (product.quantity
+        > 0) {
+        <div
+          class="bg-white rounded-lg shadow-md overflow-hidden w-full max-w-xs flex flex-col hover:shadow-lg transition-shadow"
+        >
+          <div class="relative flex-shrink-0">
+            <img
+              [src]="product.imageUrl"
+              [alt]="product.productName"
+              class="w-full h-48 object-cover"
+            />
+            <div
+              class="absolute top-3 right-3 bg-white rounded-full px-3 py-1 flex items-center gap-2 shadow-md"
+            >
+              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span class="text-xs text-gray-700 font-medium">Available</span>
+            </div>
+          </div>
+
+          <div class="p-4 flex flex-col flex-grow">
+            <div class="flex justify-between items-start gap-2 mb-4">
+              <h2 class="text-lg font-semibold text-gray-800">
+                {{ product.productName }}
+              </h2>
+              <span class="text-lg font-bold text-gray-900 whitespace-nowrap">
+                {{ product.price | currency }}
+              </span>
+            </div>
+            <div class="flex justify-end">
+              <button
+                (click)="addOrderItem(product)"
+                class="cursor-pointer self-end bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 flex items-center justify-center gap-2 text-sm"
+              >
+                <span>+</span>
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+        } }
+      </div>
+      } @else {
+      <!-- Order Confirmation -->
+      <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8">
+        <div class="text-center mb-8">
+          <div
+            class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <svg
+              class="w-8 h-8 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+          </div>
+          <h1 class="text-3xl font-bold text-gray-900 mb-2">
+            Order Confirmed!
+          </h1>
+          <p class="text-gray-600">Thank you for your order</p>
+        </div>
+
+        @if (lastOrderDetails) {
+        <div class="border-t border-b border-gray-200 py-6 mb-6">
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <p class="text-gray-600">Order Number</p>
+              <p class="font-semibold text-gray-900">
+                #{{ lastOrderDetails.orderId }}
+              </p>
+            </div>
+            <div>
+              <p class="text-gray-600">Order Date</p>
+              <p class="font-semibold text-gray-900">
+                {{ lastOrderDetails.createAt }}
+              </p>
+            </div>
+            <div>
+              <p class="text-gray-600">Total Amount</p>
+              <p class="font-semibold text-gray-900">
+                {{ lastOrderDetails.totalAmount | currency }}
+              </p>
+            </div>
+            <div>
+              <p class="text-gray-600">Items</p>
+              <p class="font-semibold text-gray-900">
+                {{ lastOrderDetails.orderItems.length | number }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Items</h2>
+          <div class="space-y-4">
+            @for (item of lastOrderDetails.orderItems; track item.orderItemId) {
+            <div class="flex items-center gap-4 bg-gray-50 p-4 rounded-lg">
+              <img
+                [src]="item.imageUrl"
+                [alt]="item.productName"
+                class="w-16 h-16 object-cover rounded"
+              />
+              <div class="flex-1">
+                <h3 class="font-medium text-gray-900">
+                  {{ item.productName }}
+                </h3>
+                <p class="text-sm text-gray-600">
+                  {{ item.pricePerUnit | currency }} × {{ item.quantity }}
+                </p>
+              </div>
+              <p class="font-semibold text-gray-900">
+                {{ item.totalPrice | currency }}
+              </p>
+            </div>
+            }
+          </div>
+        </div>
+        }
+
+        <div class="text-center">
+          <button
+            (click)="continueShopping()"
+            class="inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-3 rounded-lg transition-colors"
+          >
+            Continue Shopping
+            <svg
+              class="w-4 h-4 ml-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Shopping Cart Sidebar -->
+  @if (!isOrderPlaced) {
+  <div class="w-full lg:w-[500px]">
+    <div
+      class="max-w-2xl mx-auto bg-white rounded-lg shadow-sm p-8 lg:sticky lg:top-0"
+    >
+      <div class="mb-10">
+        <h1 class="text-4xl font-bold text-gray-900 mb-3">Your Cart</h1>
+        <p class="text-gray-600">{{ cartItems.length }} item(s) in cart</p>
+      </div>
+
+      @if (cartItems.length > 0) {
+      <!-- Cart Items -->
+      <div class="space-y-6 mb-8 max-h-[400px] overflow-y-auto">
+        @for (item of cartItems; track item.orderItemId; let i = $index) {
+        <div
+          class="flex items-start justify-between border-b border-gray-100 pb-4"
+        >
+          <div class="flex gap-4 flex-1">
+            <img
+              [src]="item.imageUrl"
+              [alt]="item.productName"
+              class="w-20 h-20 object-cover rounded-lg"
+            />
+            <div class="flex-1">
+              <h3 class="font-medium text-gray-900">{{ item.productName }}</h3>
+              <p class="text-sm text-gray-600 mt-1">
+                {{ item.pricePerUnit | currency }} each
+              </p>
+
+              <!-- Quantity Controls -->
+              <div class="flex items-center gap-2 mt-2">
+                <button
+                  (click)="updateQuantity(item, -1)"
+                  class="w-7 h-7 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-700 font-semibold transition"
+                >
+                  -
+                </button>
+                <span class="text-sm font-medium text-gray-700 w-8 text-center">
+                  {{ item.quantity }}
+                </span>
+                <button
+                  (click)="updateQuantity(item, 1)"
+                  class="w-7 h-7 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-700 font-semibold transition"
+                >
+                  +
+                </button>
+                <button
+                  (click)="removeOrderItem(i)"
+                  class="ml-2 text-red-500 hover:text-red-700 text-sm transition"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+          <p class="font-medium text-gray-900">
+            {{ item.totalPrice | currency }}
+          </p>
+        </div>
+        }
+      </div>
+
+      <!-- Order Summary -->
+      <div class="border-t border-gray-200 pt-6 space-y-3 mb-6">
+        <div class="flex justify-between text-sm">
+          <p class="text-gray-600">Subtotal</p>
+          <p class="font-medium text-gray-900">
+            {{ getSubtotal() | currency }}
+          </p>
+        </div>
+        <div class="flex justify-between text-sm">
+          <p class="text-gray-600">Shipping</p>
+          <p class="font-medium text-gray-900">
+            @if (getShipping() === 0) {
+            <span class="text-green-600">FREE</span>
+            } @else {
+            {{ getShipping() | currency }}
+            }
+          </p>
+        </div>
+        <div class="flex justify-between text-sm">
+          <p class="text-gray-600">Taxes (10%)</p>
+          <p class="font-medium text-gray-900">{{ getTaxes() | currency }}</p>
+        </div>
+        <div
+          class="flex justify-between text-base font-medium pt-3 border-t border-gray-200"
+        >
+          <p class="text-gray-900">Total</p>
+          <p class="text-gray-900">{{ getTotal() | currency }}</p>
+        </div>
+      </div>
+
+      @if (getSubtotal() < 50 && getSubtotal() > 0) {
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6">
+        <p class="text-sm text-blue-800">
+          Add {{ 50 - getSubtotal() | currency }} more for FREE shipping!
+        </p>
+      </div>
+      }
+
+      <!-- Place Order Button -->
+      <div class="mt-8">
+        <button
+          (click)="placeOrder()"
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-3 rounded-lg transition-colors"
+        >
+          Place Order - {{ getTotal() | currency }}
+        </button>
+      </div>
+      } @else {
+      <!-- Empty Cart -->
+      <div class="text-center py-12">
+        <svg
+          class="w-16 h-16 mx-auto text-gray-400 mb-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+          ></path>
+        </svg>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">
+          Your cart is empty
+        </h3>
+        <p class="text-gray-600">Add items from the menu to get started</p>
+      </div>
+      }
+    </div>
+  </div>
+  }
+</div>

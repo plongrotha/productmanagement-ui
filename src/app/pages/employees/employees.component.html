@@ -1,0 +1,371 @@
+<div class="flex flex-col p-2">
+  <form #userform="ngForm">
+    <div class="grid gap-6 mb-6 md:grid-cols-2">
+      <!-- First Name -->
+      <div>
+        <label
+          for="first_name"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >First name</label
+        >
+        <input
+          [(ngModel)]="userObj.firstName"
+          type="text"
+          id="firstname"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="enter first name"
+          name="firstname"
+          required
+          minlength="2"
+          #fname="ngModel"
+        />
+        @if ((fname.dirty || fname?.touched)) { @if
+        (fname?.errors?.['required']) {
+        <small class="text-red-400">firstnam is required</small>
+        } @if (fname?.errors?.['minlength']) {
+        <small class="text-red-400"
+          >minimum of firstname should 4 characters</small
+        >
+        } }
+      </div>
+      <!-- Last Name -->
+      <div>
+        <label
+          for="last_name"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >Last name</label
+        >
+        <input
+          [(ngModel)]="userObj.lastName"
+          type="text"
+          id="last_name"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Enter last name"
+          name="lastname"
+          required
+          minlength="2"
+          #lname="ngModel"
+        />
+        @if ((lname.dirty || lname?.touched)) { @if
+        (lname?.errors?.['required']) {
+        <small class="text-red-400">last name is required</small>
+        } @if (lname?.errors?.['minlength']) {
+        <small class="text-red-400"
+          >minimum of lastname should 4 characters</small
+        >
+        > } }
+      </div>
+      <!-- Date of Birth -->
+      <div>
+        <label
+          for="dateofbirth"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >Date of Birth</label
+        >
+        <input
+          [(ngModel)]="userObj.dob"
+          type="date"
+          id="dateofbirth"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Select date"
+          name="dateofbirth"
+          required
+          #dob="ngModel"
+        />
+
+        @if ((dob.dirty || dob?.touched)) { @if (dob?.errors?.['required']) {
+        <small class="text-red-400">date of birth is required</small>
+        } @if (dob?.errors?.['datetype']) {
+        <small class="text-red-400"
+          >minimum of date of birth should 4 characters</small
+        >
+        } }
+      </div>
+      <!-- Phone Number  -->
+      <div>
+        <label
+          for="phone"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >Phone number</label
+        >
+        <input
+          [(ngModel)]="userObj.phoneNumber"
+          type="text"
+          id="phone"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="123-45-678"
+          name="phone"
+          required
+          #phone="ngModel"
+        />
+        @if ((phone.dirty || phone?.touched)) { @if
+        (phone?.errors?.['required']) {
+        <small class="text-red-400">phone number is required</small>
+        } }
+      </div>
+    </div>
+    <div class="mb-6">
+      <label
+        for="email"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Email address</label
+      >
+      <input
+        [(ngModel)]="userObj.email"
+        type="email"
+        id="email"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Enter email"
+        name="email"
+        required
+        #email="ngModel"
+      />
+      @if (email.dirty || email.touched) { @if (email?.errors?.['required']) {
+      <small class="text-red-400">email is required</small>
+      }@if (email?.errors?.['email']) {
+      <small class="text-red-400">email example: ....&#64;gmail.com</small>
+      } }
+    </div>
+
+    <!-- Total Of Employee count -->
+    <div class="flex justify-between mb-6">
+      <div class="w-1/2">
+        <div
+          class="w-[200px] bg-green-500 text-white flex items-center justify-center h-full border"
+        >
+          <h1 class="font-bold text-center">
+            Total Employee : {{ totalEmployees }}
+          </h1>
+        </div>
+      </div>
+      <div>
+        @if (userObj.id == 0) {
+        <button
+          [disabled]="userform.invalid"
+          (click)="addUser()"
+          class="text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Add Employee
+        </button>
+        }@else {
+        <button
+          class="text-white cursor-pointer bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
+        >
+          Update Employee
+        </button>
+        }
+      </div>
+    </div>
+  </form>
+  <!-- // Employee list component -->
+  <app-employee-list
+    [employees]="users"
+    (editEmployee)="openModal($event)"
+    (deleteEmployee)="openDeleteModal($event)"
+  >
+  </app-employee-list>
+</div>
+
+<!-- update model -->
+<div
+  *ngIf="isOpenModal"
+  class="fixed inset-0 flex items-center justify-center bg-opacity-60 backdrop-blur-xs overflow-y-auto"
+  (click)="closeModal()"
+>
+  <div
+    class="bg-white rounded-xl shadow-2xl p-8 max-w-2xl w-full mx-4 my-8 transform transition-all"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">
+        Update Employee Information
+      </h2>
+      <button
+        type="button"
+        (click)="closeModal()"
+        class="text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <form #updateForm="ngForm" class="space-y-6">
+      <!-- First Name -->
+      <div>
+        <label
+          for="updateFirstName"
+          class="block text-sm font-medium text-gray-700 mb-2"
+        >
+          First Name
+        </label>
+        <input
+          type="text"
+          id="updateFirstName"
+          name="updateFirstName"
+          [(ngModel)]="employeeUpdateDto.firstName"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          placeholder="Enter first name"
+          required
+          #updateFirstname="ngModel"
+          minlength="2"
+        />
+        @if ((updateFirstname.dirty || updateFirstname?.touched)) { @if
+        (updateFirstname?.errors?.['required']) {
+        <small class="text-red-400">last name is required</small>
+        } @if (updateFirstname?.errors?.['minlength']) {
+        <small class="text-red-400"
+          >minimum of lastname should 4 characters</small
+        >
+        > } }
+      </div>
+
+      <!-- Last Name -->
+      <div>
+        <label
+          for="updateLastName"
+          class="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Last Name
+        </label>
+        <input
+          type="text"
+          id="updateLastName"
+          name="updateLastName"
+          [(ngModel)]="employeeUpdateDto.lastName"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          placeholder="Enter last name"
+          required
+          #updateLastName="ngModel"
+          minlength="2"
+        />
+        @if ((updateLastName.dirty || updateLastName?.touched)) { @if
+        (updateLastName?.errors?.['required']) {
+        <small class="text-red-400">last name is required</small>
+        } @if (updateLastName?.errors?.['minlength']) {
+        <small class="text-red-400"
+          >minimum of lastname should 4 characters</small
+        >
+        > } }
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label
+          for="updateEmail"
+          class="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Email Address
+        </label>
+        <input
+          type="email"
+          id="updateEmail"
+          name="updateEmail"
+          [(ngModel)]="employeeUpdateDto.email"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          placeholder="Enter email address"
+          required
+        />
+      </div>
+
+      <!-- Phone Number -->
+      <div>
+        <label
+          for="updatePhoneNumber"
+          class="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Phone Number
+        </label>
+        <input
+          type="tel"
+          id="updatePhoneNumber"
+          name="updatePhoneNumber"
+          [(ngModel)]="employeeUpdateDto.phoneNumber"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          placeholder="Enter phone number"
+          required
+        />
+      </div>
+
+      <!-- Date of Birth -->
+      <div>
+        <label
+          for="updateDob"
+          class="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Date of Birth
+        </label>
+        <input
+          type="date"
+          id="updateDob"
+          name="updateDob"
+          [(ngModel)]="employeeUpdateDto.dob"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          required
+        />
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-4 pt-4">
+        <button
+          (click)="updateUser()"
+          type="submit"
+          [disabled]="updateForm.invalid"
+          class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Update
+        </button>
+        <button
+          type="button"
+          (click)="closeModal()"
+          class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition duration-200"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- -----------------------  -->
+<!--  delete modal -->
+<!-- -----------------------  -->
+<div
+  *ngIf="isDelete"
+  class="fixed inset-0 flex bg-opacity-50 items-center backdrop-blur-xs justify-center p-4 z-50"
+>
+  <!-- Modal Content -->
+  <div class="bg-white rounded-lg shadow-xl max-w-xs w-full p-4">
+    <!-- Title -->
+    <h3 class="text-base font-semibold text-gray-900 mb-3">
+      Do you want to delete this employee?
+    </h3>
+
+    <!-- Buttons -->
+    <div class="flex gap-2">
+      <button
+        (click)="closeDeleteModal()"
+        class="flex-1 px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="deleteEmpByid()"
+        class="flex-1 px-3 py-1.5 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
