@@ -77,7 +77,7 @@ export class EmployeesComponent implements OnInit {
     });
 
     this.userService.deleteUserById(this.selectedEmployeeId).subscribe({
-      next: (res) => {
+      next: () => {
         this.users = this.users.filter((emp) => {
           emp.id != this.selectedEmployeeId;
         });

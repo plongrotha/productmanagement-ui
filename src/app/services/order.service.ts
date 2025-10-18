@@ -8,7 +8,8 @@ import { OrderRequest, OrderResponse } from '../models/order.model';
   providedIn: 'root',
 })
 export class OrderService {
-  private API_URL = 'http://localhost:8080/api/v1/orders';
+  private API_URL =
+    'http://productmangementapi-production.up.railway.app/v1/orders';
 
   http = inject(HttpClient);
 

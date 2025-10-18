@@ -13,7 +13,8 @@ import { Observable } from 'rxjs';
 })
 export class EmployeeServiceService {
   // the base Url from the spring boot api
-  private apiUrl = 'http://localhost:8080/api/employees';
+  private apiUrl =
+    'http://productmangementapi-production.up.railway.app/api/employees';
 
   http = inject(HttpClient);
 

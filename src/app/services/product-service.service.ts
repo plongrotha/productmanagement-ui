@@ -15,8 +15,10 @@ import { ApiResponse } from '../models/employee.model';
 })
 export class ProductServiceService {
   // base url from spring boot backend
-  private apiUrl = 'http://localhost:8080/api/v1/products';
-  private cateapiUrl = 'http://localhost:8080/api/categories';
+  private apiUrl =
+    'http://productmangementapi-production.up.railway.app/api/v1/products';
+  private cateapiUrl =
+    'http://productmangementapi-production.up.railway.app/api/categories';
 
   http = inject(HttpClient);
 
